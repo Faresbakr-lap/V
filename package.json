@@ -1,0 +1,9 @@
+{
+  "name": "facebook-page-posts-viewer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web app to fetch and display Facebook page posts (text, images, videos) using an access token.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
