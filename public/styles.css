@@ -1,0 +1,98 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f6fb;
+  color: #1c2333;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 {
+  margin: 0 0 10px;
+}
+
+.hint {
+  margin-top: 0;
+  color: #555;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #c8d2e6;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+button {
+  justify-self: start;
+  background: #1877f2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1464ce;
+}
+
+.status {
+  margin: 16px 0;
+  min-height: 24px;
+  font-weight: bold;
+}
+
+.posts {
+  display: grid;
+  gap: 16px;
+}
+
+.post {
+  background: white;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.post h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.post p {
+  margin: 10px 0;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.post img,
+.post video {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 10px;
+}

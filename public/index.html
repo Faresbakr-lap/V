@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>عارض منشورات صفحات فيسبوك</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>عارض منشورات صفحات فيسبوك</h1>
+      <p class="hint">
+        أدخل Page ID و Access Token ثم اعرض أحدث المنشورات (نص، صور، فيديو).
+      </p>
+
+      <form id="posts-form" class="card">
+        <label>
+          Page ID
+          <input type="text" id="page-id" placeholder="مثال: 20531316728" required />
+        </label>
+
+        <label>
+          Access Token
+          <input
+            type="password"
+            id="access-token"
+            placeholder="أدخل التوكن"
+            required
+            autocomplete="off"
+          />
+        </label>
+
+        <button type="submit">عرض المنشورات</button>
+      </form>
+
+      <section id="status" class="status" aria-live="polite"></section>
+      <section id="posts" class="posts"></section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
