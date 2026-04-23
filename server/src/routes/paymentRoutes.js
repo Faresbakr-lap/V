@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import { body } from 'express-validator';
+import { createCheckoutSession } from '../controllers/paymentController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { validate } from '../middleware/validate.js';
+
+const router = Router();
+
+router.post('/checkout', requireAuth, [body('listingId').notEmpty()], validate, createCheckoutSession);
+
+export default router;
