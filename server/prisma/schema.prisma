@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  BUYER
+  SELLER
+  ADMIN
+}
+
+model User {
+  id              String            @id @default(cuid())
+  name            String
+  email           String            @unique
+  password        String
+  role            Role              @default(BUYER)
+  avatarUrl       String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  listings        Listing[]         @relation("SellerListings")
+  favorites       Favorite[]
+  browsingEvents  BrowsingEvent[]
+  sentMessages    Message[]         @relation("Sender")
+  receivedMessages Message[]        @relation("Receiver")
+  reviews         Review[]          @relation("Reviewer")
+  sellerReviews   Review[]          @relation("SellerReview")
+  orders          Order[]           @relation("BuyerOrders")
+}
+
+model Listing {
+  id                 String         @id @default(cuid())
+  name               String
+  description        String
+  category           String
+  audienceCountry    String
+  followersCount     Int
+  engagementRate     Float
+  verified           Boolean        @default(false)
+  rightsManager      Boolean        @default(false)
+  monetization       Boolean        @default(false)
+  price              Float
+  reach              Int
+  avgDailyViews      Int
+  genderSplit        Json
+  ageSplit           Json
+  audienceBreakdown  Json
+  imageUrl           String?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  sellerId           String
+  seller             User           @relation("SellerListings", fields: [sellerId], references: [id])
+  screenshots        Screenshot[]
+  favorites          Favorite[]
+  reviews            Review[]
+  orders             Order[]
+  browsingEvents     BrowsingEvent[]
+}
+
+model Screenshot {
+  id         String   @id @default(cuid())
+  listingId  String
+  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  imageUrl   String
+  caption    String?
+  createdAt  DateTime @default(now())
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  listingId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
+}
+
+model BrowsingEvent {
+  id          String   @id @default(cuid())
+  userId      String
+  listingId   String
+  action      String
+  durationSec Int      @default(0)
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing     Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  content    String
+  senderId   String
+  receiverId String
+  listingId  String?
+  createdAt  DateTime @default(now())
+  sender     User     @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   User     @relation("Receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String
+  listingId String
+  buyerId   String
+  sellerId  String
+  createdAt DateTime @default(now())
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyer     User     @relation("Reviewer", fields: [buyerId], references: [id], onDelete: Cascade)
+  seller    User     @relation("SellerReview", fields: [sellerId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id               String   @id @default(cuid())
+  listingId        String
+  buyerId          String
+  amount           Float
+  stripeSessionId  String?
+  status           String   @default("PENDING")
+  createdAt        DateTime @default(now())
+  listing          Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyer            User     @relation("BuyerOrders", fields: [buyerId], references: [id], onDelete: Cascade)
+}
